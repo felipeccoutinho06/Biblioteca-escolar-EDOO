@@ -1,22 +1,27 @@
-#ifndef EMPRESTIMO_H
-#define EMPRESTIMO_H
+#ifndef EMPRESTIMO_HPP
+#define EMPRESTIMO_HPP
 
-#include <memory>
-#include <string>
-#include "Livros.hpp"
+#include "Livro.hpp"
 #include "Usuario.hpp"
-
+#include <iostream>
 using namespace std;
 
 class Emprestimo {
 private:
-    shared_ptr<Livro> livro;
-    shared_ptr<Usuario> usuario;
+    Livro* livro;
+    Usuario* usuario;
     string dataEmprestimo;
 
 public:
-    Emprestimo(shared_ptr<Livro> l, shared_ptr<Usuario> u, string data);
-    void exibirDetalhes() const;
+    Emprestimo() : livro(nullptr), usuario(nullptr), dataEmprestimo("") {}
+
+    Emprestimo(Livro* l, Usuario* u, string data) : livro(l), usuario(u), dataEmprestimo(data) {}
+
+    void exibirDetalhes() const {
+        cout << "Livro: " << livro->getTitulo() << " | ISBN: " << livro->getISBN() << endl;
+        cout << "Usuario: " << usuario->getNome() << " | ID: " << usuario->getId() << endl;
+        cout << "Data de Emprestimo: " << dataEmprestimo << endl;
+    }
 };
 
 #endif

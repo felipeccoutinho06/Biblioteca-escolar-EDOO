@@ -1,21 +1,24 @@
-#ifndef LIVRO_H
-#define LIVRO_H
+#ifndef LIVRO_HPP
+#define LIVRO_HPP
 
-#include <string>
+#include <iostream>
 using namespace std;
 
 class Livro {
 private:
     string titulo;
-    string autor;
-    string ISBN;
+    string isbn;
     int quantidade;
 
 public:
-    Livro(string t, string a, string i, int q);
-    bool estaDisponivel() const;
-    void emprestar();
-    void devolver();
+    Livro(string t, string i, int q);
+
     string getTitulo() const;
     string getISBN() const;
+    bool estaDisponivel() const;
+
+    void emprestar();
+    void devolver();
 };
+
+#endif

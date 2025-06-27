@@ -1,12 +1,13 @@
-#ifndef PROFESSOR_H
-#define PROFESSOR_H
+#ifndef PROFESSOR_HPP
+#define PROFESSOR_HPP
 
 #include "Usuario.hpp"
 
 class Professor : public Usuario {
 public:
-    Professor(string n, int i);
-    int getLimiteEmprestimo() const override;
+    Professor(string n, int i) : Usuario(n, i) {}
+
+    int getLimiteLivros() const override { return 5; }
 };
 
 #endif

@@ -1,17 +1,9 @@
-#include "Livros.hpp"
+#include "Livro.hpp"
 
-Livro::Livro(string t, string a, string i, int q) : titulo(t), autor(a), ISBN(i), quantidade(q) {}
-
-bool Livro::estaDisponivel() const {
-    return quantidade > 0;
-}
-
-void Livro::emprestar() {
-    if (quantidade > 0) quantidade--;
-}
-
-void Livro::devolver() {
-    quantidade++;
+Livro::Livro(string t, string i, int q) {
+    titulo = t;
+    isbn = i;
+    quantidade = q;
 }
 
 string Livro::getTitulo() const {
@@ -19,5 +11,17 @@ string Livro::getTitulo() const {
 }
 
 string Livro::getISBN() const {
-    return ISBN;
+    return isbn;
+}
+
+bool Livro::estaDisponivel() const {
+    return quantidade > 0;
+}
+
+void Livro::emprestar() {
+    quantidade--;
+}
+
+void Livro::devolver() {
+    quantidade++;
 }

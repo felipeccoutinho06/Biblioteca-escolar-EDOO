@@ -1,56 +1,106 @@
 #include "Biblioteca.hpp"
 #include <iostream>
+using namespace std;
 
-void Biblioteca::adicionarLivro(shared_ptr<Livro> livro) {
-    livros.push_back(livro);
+Biblioteca::~Biblioteca() {
+    for (int i = 0; i < totalLivros; i++) {
+        delete livros[i];
+    }
+    for (int i = 0; i < totalUsuarios; i++) {
+        delete usuarios[i];
+    }
 }
 
-void Biblioteca::adicionarUsuario(shared_ptr<Usuario> usuario) {
-    usuarios.push_back(usuario);
+void Biblioteca::adicionarLivro(Livro* livro) {
+    if (totalLivros < TAMANHO_MAXIMO) {
+        livros[totalLivros] = livro;
+        totalLivros++;
+    } else {
+        cout << "Limite de livros atingido.\n";
+    }
+}
+
+void Biblioteca::adicionarUsuario(Usuario* usuario) {
+    if (totalUsuarios < TAMANHO_MAXIMO) {
+        usuarios[totalUsuarios] = usuario;
+        totalUsuarios++;
+    } else {
+        cout << "Limite de usuarios atingido.\n";
+    }
 }
 
 void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) {
-    shared_ptr<Livro> livro = nullptr;
-    shared_ptr<Usuario> usuario = nullptr;
+    Livro* livro = nullptr;
+    Usuario* usuario = nullptr;
 
-    for (auto &l : livros) {
-        if (l->getISBN() == isbn && l->estaDisponivel()) {
-            livro = l;
+    for (int i = 0; i < totalLivros; i++) {
+        if (livros[i]->getISBN() == isbn && livros[i]->estaDisponivel()) {
+            livro = livros[i];
             break;
         }
     }
 
-    for (auto &u : usuarios) {
-        if (u->getId() == userId) {
-            usuario = u;
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (usuarios[i]->getId() == userId) {
+            usuario = usuarios[i];
             break;
         }
     }
 
     if (livro && usuario) {
+        if (usuario->jaPegouLivro(isbn)) {
+            cout << "Este usuario ja pegou este livro antes.\n";
+            return;
+        }
+
+        if (!usuario->podePegarMais()) {
+            cout << "Este usuario atingiu o limite de livros emprestados.\n";
+            return;
+        }
+
         livro->emprestar();
-        emprestimos.emplace_back(livro, usuario, dataEmprestimo);
+        usuario->registrarLivro(isbn);
+
+        emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
+        totalEmprestimos++;
+
         cout << "Emprestimo realizado com sucesso!\n";
     } else {
         cout << "Livro indisponivel ou usuario nao encontrado.\n";
     }
 }
 
-void Biblioteca::devolverLivro(string isbn) {
-    for (auto &l : livros) {
-        if (l->getISBN() == isbn) {
-            l->devolver();
-            cout << "Livro devolvido com sucesso!\n";
-            return;
+void Biblioteca::devolverLivro(string isbn, int userId) {
+    Livro* livro = nullptr;
+    Usuario* usuario = nullptr;
+
+    for (int i = 0; i < totalLivros; i++) {
+        if (livros[i]->getISBN() == isbn) {
+            livro = livros[i];
+            break;
         }
     }
-    cout << "Livro nao encontrado.\n";
+
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (usuarios[i]->getId() == userId) {
+            usuario = usuarios[i];
+            break;
+        }
+    }
+
+    if (livro && usuario) {
+        livro->devolver();
+        usuario->removerLivro(isbn);
+        cout << "Livro devolvido com sucesso!\n";
+    } else {
+        cout << "Livro ou usuario nao encontrado.\n";
+    }
 }
 
 void Biblioteca::exibirEmprestimos() const {
     cout << "Emprestimos Ativos:\n";
-    for (const auto &e : emprestimos) {
-        e.exibirDetalhes();
+    for (int i = 0; i < totalEmprestimos; i++) {
+        emprestimos[i].exibirDetalhes();
         cout << "-------------------\n";
     }
 }

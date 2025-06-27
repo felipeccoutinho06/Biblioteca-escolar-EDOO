@@ -1,7 +1,10 @@
 #include "Emprestimo.hpp"
 #include <iostream>
+using namespace std;
 
-Emprestimo::Emprestimo(shared_ptr<Livro> l, shared_ptr<Usuario> u, string data) : livro(l), usuario(u), dataEmprestimo(data) {}
+Emprestimo::Emprestimo() : livro(nullptr), usuario(nullptr), dataEmprestimo("") {}
+
+Emprestimo::Emprestimo(Livro* l, Usuario* u, string data) : livro(l), usuario(u), dataEmprestimo(data) {}
 
 void Emprestimo::exibirDetalhes() const {
     cout << "Livro: " << livro->getTitulo() << endl;
