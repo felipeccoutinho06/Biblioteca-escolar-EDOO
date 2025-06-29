@@ -19,6 +19,8 @@ public:
 
     void emprestar();
     void devolver();
+
+    void setQuantidade(int q); // Método adicionado
 };
 
 #endif
