@@ -25,3 +25,7 @@ void Livro::emprestar() {
 void Livro::devolver() {
     quantidade++;
 }
+
+void Livro::setQuantidade(int q) {
+    quantidade = q;
+}

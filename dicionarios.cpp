@@ -1,44 +1,66 @@
-#include <map>
-#include <string>
 #include "Livros.hpp"
 #include "Usuario.hpp"
 #include "Emprestimo.hpp"
 
-// Dicionários simulando tabelas do banco de dados
-std::map<std::string, Livro> livrosDB;      // chave: ISBN
-std::map<int, Usuario*> usuariosDB;         // chave: ID do usuário
-std::map<int, Emprestimo> emprestimosDB;    // chave: ID do empréstimo
+const int MAX_LIVROS = 100;
+const int MAX_USUARIOS = 100;
+const int MAX_EMPRESTIMOS = 100;
 
-// Funções CRUD para Livro
+Livro livrosDB[MAX_LIVROS];
+int totalLivrosDB = 0;
+
+Usuario* usuariosDB[MAX_USUARIOS];
+int totalUsuariosDB = 0;
+
+Emprestimo emprestimosDB[MAX_EMPRESTIMOS];
+int totalEmprestimosDB = 0;
+
 void cadastrarLivro(const Livro& livro) {
-    livrosDB[livro.getISBN()] = livro;
+    if (totalLivrosDB < MAX_LIVROS) {
+        livrosDB[totalLivrosDB] = livro;
+        totalLivrosDB++;
+    }
 }
 
 Livro* buscarLivro(const std::string& isbn) {
-    auto it = livrosDB.find(isbn);
-    if (it != livrosDB.end()) return &(it->second);
+    for (int i = 0; i < totalLivrosDB; i++) {
+        if (livrosDB[i].getISBN() == isbn) {
+            return &livrosDB[i];
+        }
+    }
     return nullptr;
 }
 
 void atualizarQuantidadeLivro(const std::string& isbn, int novaQuantidade) {
-    auto it = livrosDB.find(isbn);
-    if (it != livrosDB.end()) it->second.setQuantidade(novaQuantidade);
+    Livro* livro = buscarLivro(isbn);
+    if (livro) {
+        livro->setQuantidade(novaQuantidade);
+    }
 }
 
 void removerLivro(const std::string& isbn) {
-    livrosDB.erase(isbn);
+    for (int i = 0; i < totalLivrosDB; i++) {
+        if (livrosDB[i].getISBN() == isbn) {
+            livrosDB[i] = livrosDB[totalLivrosDB - 1];
+            totalLivrosDB--;
+            break;
+        }
+    }
 }
 
-// Funções CRUD para Usuario (exemplo: buscar por ID)
 Usuario* buscarUsuario(int id) {
-    auto it = usuariosDB.find(id);
-    if (it != usuariosDB.end()) return it->second;
+    for (int i = 0; i < totalUsuariosDB; i++) {
+        if (usuariosDB[i]->getId() == id) {
+            return usuariosDB[i];
+        }
+    }
     return nullptr;
 }
 
-// Funções CRUD para Emprestimo (exemplo: remover)
-void removerEmprestimo(int idEmprestimo) {
-    emprestimosDB.erase(idEmprestimo);
+void removerEmprestimo(int indice) {
+    if (indice >= 0 && indice < totalEmprestimosDB) {
+        emprestimosDB[indice] = emprestimosDB[totalEmprestimosDB - 1];
+        totalEmprestimosDB--;
+    }
 }
 
-// Implemente funções semelhantes para criar, atualizar e buscar usuários e empréstimos.

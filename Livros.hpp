@@ -1,5 +1,5 @@
-#ifndef LIVRO_HPP
-#define LIVRO_HPP
+#ifndef LIVROS_HPP
+#define LIVROS_HPP
 
 #include <iostream>
 using namespace std;
@@ -11,6 +11,7 @@ private:
     int quantidade;
 
 public:
+    Livro() : titulo(""), isbn(""), quantidade(0) {} // Construtor padrão
     Livro(string t, string i, int q);
 
     string getTitulo() const;
@@ -20,7 +21,7 @@ public:
     void emprestar();
     void devolver();
 
-    void setQuantidade(int q); // Método adicionado
+    void setQuantidade(int q);
 };
 
 #endif
