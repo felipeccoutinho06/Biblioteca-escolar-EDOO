@@ -104,3 +104,21 @@ void Biblioteca::exibirEmprestimos() const {
         cout << "-------------------\n";
     }
 }
+
+bool Biblioteca::idUsuarioExiste(int userId) const {
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (usuarios[i]->getId() == userId) {
+            return true; // ID encontrado
+        }
+    }
+    return false; // ID não encontrado
+}
+
+bool Biblioteca::isbnLivroExiste(const string& isbn) const {
+    for (int i = 0; i < totalLivros; i++) {
+        if (livros[i]->getISBN() == isbn) {
+            return true; // ISBN encontrado
+        }
+    }
+    return false; // ISBN não encontrado
+}

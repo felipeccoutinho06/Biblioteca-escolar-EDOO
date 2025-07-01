@@ -1,9 +1,13 @@
 #include "Aluno.hpp"
 #include "Professor.hpp"
+#include "Biblioteca.hpp"
 #include "Livros.hpp"
 #include "dicionarios.hpp"
 #include <iostream>
 using namespace std;
+
+// Assuming Biblioteca is a class that manages the library system
+Biblioteca biblioteca;
 
 int main() {
     Professor* prof1 = new Professor("Maria Silva", 1);
@@ -32,27 +36,46 @@ int main() {
     cadastrarLivro(Livro("Ciências 2", "ISBN014", 2));
     cadastrarLivro(Livro("Ciências 3", "ISBN015", 4));
 
-    cout << "Professores cadastrados:\n";
-    for (int i = 0; i < totalUsuariosDB; i++) {
-        if (dynamic_cast<Professor*>(usuariosDB[i]))
-            cout << usuariosDB[i]->getNome() << " (ID: " << usuariosDB[i]->getId() << ")\n";
-    }
-
-    cout << "\nAlunos cadastrados:\n";
-    for (int i = 0; i < totalUsuariosDB; i++) {
-        if (dynamic_cast<Aluno*>(usuariosDB[i]))
-            cout << usuariosDB[i]->getNome() << " (ID: " << usuariosDB[i]->getId() << ")\n";
-    }
+    
 
     cout << "\nLivros cadastrados:\n";
     for (int i = 0; i < totalLivrosDB; i++) {
         cout << livrosDB[i].getTitulo() << " (ISBN: " << livrosDB[i].getISBN()
              << ", Disponível: " << (livrosDB[i].estaDisponivel() ? "Sim" : "Não") << ")\n";
     }
+ 
+    int userId;
+    string isbn, dataEmprestimo;
+
+    // Verificar se o ID do usuário existe
+    do {
+        cout << "Digite o ID do usuario: ";
+        cin >> userId;
+
+        if (!biblioteca.idUsuarioExiste(userId)) {
+            cout << "ID do usuario nao encontrado. Tente novamente.\n";
+        }
+    } while (!biblioteca.idUsuarioExiste(userId)); // Continua pedindo até encontrar um ID válido
+
+    // Solicitar o ISBN e a data do empréstimo
+    bool isbnValido;
+    do {
+    cout << "Digite o ISBN do livro: ";
+    cin >> isbn;
+    isbnValido = biblioteca.isbnLivroExiste(isbn);
+    if (!isbnValido) {
+        cout << "ISBN do livro nao encontrado. Tente novamente.\n";
+    }
+    } while (!isbnValido);
+
+    cout << "Digite a data do emprestimo (YYYY-MM-DD): ";
+    cin >> dataEmprestimo;
+
+    // Chamar o método emprestarLivro
+    biblioteca.emprestarLivro(isbn, userId, dataEmprestimo);
 
     for (int i = 0; i < totalUsuariosDB; i++) {
         delete usuariosDB[i];
     }
-
     return 0;
 }

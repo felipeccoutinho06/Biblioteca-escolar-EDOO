@@ -19,7 +19,9 @@ private:
 
 public:
     ~Biblioteca();
-
+    bool isbnLivroExiste(const string& isbn) const;
+    bool idUsuarioExiste(int userId) const;
+    
     void adicionarLivro(Livro* livro);
     void adicionarUsuario(Usuario* usuario);
 
