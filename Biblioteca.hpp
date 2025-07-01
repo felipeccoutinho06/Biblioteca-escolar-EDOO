@@ -29,6 +29,7 @@ public:
     void devolverLivro(string isbn, int userId);
 
     void exibirEmprestimos() const;
+    void exibirLivros() const;
 };
 
 #endif

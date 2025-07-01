@@ -122,3 +122,11 @@ bool Biblioteca::isbnLivroExiste(const string& isbn) const {
     }
     return false; // ISBN não encontrado
 }
+
+void Biblioteca::exibirLivros() const {
+    cout << "\nLivros cadastrados:\n";
+    for (int i = 0; i < totalLivros; i++) {
+        cout << livros[i]->getTitulo() << " (ISBN: " << livros[i]->getISBN()
+             << ", Disponível: " << (livros[i]->estaDisponivel() ? "Sim" : "Não") << ")\n";
+    }
+}
