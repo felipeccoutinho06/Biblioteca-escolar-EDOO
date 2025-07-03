@@ -62,11 +62,10 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
         usuario->registrarLivro(isbn);
 
         emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
-        cout << "Emprestimo realizado com sucesso!\n";
-        emprestimos[totalEmprestimos].exibirDetalhes(); // <-- Adicione esta linha aqui
         totalEmprestimos++;
-        
+
         cout << "Emprestimo realizado com sucesso!\n";
+        emprestimos[totalEmprestimos - 1].exibirDetalhes();
     } else {
         cout << "Livro indisponivel ou usuario nao encontrado.\n";
     }
@@ -128,12 +127,10 @@ bool Biblioteca::isbnLivroExiste(const string& isbn) const {
 void Biblioteca::exibirLivros(int userId) const {
     cout << "\nLivros cadastrados:\n";
     Usuario* usuario = nullptr;
-    if (userId != -1) {
-        for (int i = 0; i < totalUsuarios; i++) {
-            if (usuarios[i]->getId() == userId) {
-                usuario = usuarios[i];
-                break;
-            }
+    for (int i = 0; i < totalUsuarios; i++) {
+        if (usuarios[i]->getId() == userId) {
+            usuario = usuarios[i];
+            break;
         }
     }
     for (int i = 0; i < totalLivros; i++) {
@@ -142,7 +139,7 @@ void Biblioteca::exibirLivros(int userId) const {
             disponivel = false;
         }
         cout << livros[i]->getTitulo() << " (ISBN: " << livros[i]->getISBN()
-             << ", Disponível: " << (disponivel ? "Sim" : "Não") << ")\n";
+             << ", Disponivel: " << (disponivel ? "Sim" : "Nao") << ")\n";
     }
 }
 

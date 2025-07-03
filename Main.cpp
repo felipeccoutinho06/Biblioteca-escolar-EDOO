@@ -63,7 +63,7 @@ int main() {
         }
 
         cout << "\nLista de livros disponíveis:\n";
-        biblioteca.exibirLivros();
+        biblioteca.exibirLivros(userId);
         cout << "\n";
 
         // Solicitar o ISBN e a data do empréstimo
