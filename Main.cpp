@@ -40,50 +40,55 @@ int main() {
 
     biblioteca.exibirLivros();
  
-    int userId;
-    string isbn, dataEmprestimo;
+    while (true) {
+        int userId;
+        string isbn, dataEmprestimo;
 
-    // Verificar se o ID do usuário existe
+        bool idValido = false;
     do {
-        cout << "Digite o ID do usuario: ";
+        cout << "\nDigite o ID do usuario (ou -1 para sair): ";
         cin >> userId;
-
-        if (!biblioteca.idUsuarioExiste(userId)) {
+        if (userId == -1) return 0;
+        idValido = biblioteca.idUsuarioExiste(userId);
+        if (!idValido) {
             cout << "ID do usuario nao encontrado. Tente novamente.\n";
         }
-    } while (!biblioteca.idUsuarioExiste(userId)); // Continua pedindo até encontrar um ID válido
+    } while (!idValido);
 
-    cout << "Deseja ver todos os seus emprestimos? (s/n): ";
-    char verEmprestimos;
-    cin >> verEmprestimos;
-    if (verEmprestimos == 's' || verEmprestimos == 'S') {
-        biblioteca.exibirEmprestimosDoUsuario(userId);
+        cout << "Deseja ver todos os seus emprestimos? (s/n): ";
+        char verEmprestimos;
+        cin >> verEmprestimos;
+        if (verEmprestimos == 's' || verEmprestimos == 'S') {
+            biblioteca.exibirEmprestimosDoUsuario(userId);
+        }
+
+        cout << "\nLista de livros disponíveis:\n";
+        biblioteca.exibirLivros();
+        cout << "\n";
+
+        // Solicitar o ISBN e a data do empréstimo
+        bool isbnValido;
+        do {
+            cout << "Digite o ISBN do livro: ";
+            cin >> isbn;
+            isbnValido = biblioteca.isbnLivroExiste(isbn);
+            if (!isbnValido) {
+                cout << "ISBN do livro nao encontrado. Tente novamente.\n";
+            }
+        } while (!isbnValido);
+
+        cout << "Digite a data do emprestimo (YYYY-MM-DD): ";
+        cin >> dataEmprestimo;
+
+        // Chamar o método emprestarLivro
+        biblioteca.emprestarLivro(isbn, userId, dataEmprestimo);
+
+        cout << "\nDeseja realizar outra operacao? (s/n): ";
+        char continuar;
+        cin >> continuar;
+        if (continuar != 's' && continuar != 'S') break;
     }
 
-    cout << "\nLista de livros disponíveis:\n";
-    biblioteca.exibirLivros();
-    cout << "\n";
-
-    
-    // Solicitar o ISBN e a data do empréstimo
-    bool isbnValido;
-    do {
-    cout << "Digite o ISBN do livro: ";
-    cin >> isbn;
-    isbnValido = biblioteca.isbnLivroExiste(isbn);
-    if (!isbnValido) {
-        cout << "ISBN do livro nao encontrado. Tente novamente.\n";
-    }
-    } while (!isbnValido);
-
-    cout << "Digite a data do emprestimo (YYYY-MM-DD): ";
-    cin >> dataEmprestimo;
-
-    // Chamar o método emprestarLivro
-    biblioteca.emprestarLivro(isbn, userId, dataEmprestimo);
-
-    for (int i = 0; i < totalUsuariosDB; i++) {
-        delete usuariosDB[i];
-    }
+    // Libere memória se necessário (ex: delete usuariosDB[i])
     return 0;
 }
