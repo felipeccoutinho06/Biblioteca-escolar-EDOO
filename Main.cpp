@@ -53,6 +53,18 @@ int main() {
         }
     } while (!biblioteca.idUsuarioExiste(userId)); // Continua pedindo até encontrar um ID válido
 
+    cout << "Deseja ver todos os seus emprestimos? (s/n): ";
+    char verEmprestimos;
+    cin >> verEmprestimos;
+    if (verEmprestimos == 's' || verEmprestimos == 'S') {
+        biblioteca.exibirEmprestimosDoUsuario(userId);
+    }
+
+    cout << "\nLista de livros disponíveis:\n";
+    biblioteca.exibirLivros();
+    cout << "\n";
+
+    
     // Solicitar o ISBN e a data do empréstimo
     bool isbnValido;
     do {

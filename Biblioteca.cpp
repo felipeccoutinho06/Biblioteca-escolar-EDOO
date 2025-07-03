@@ -62,6 +62,12 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
         usuario->registrarLivro(isbn);
 
         emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
+        cout << "Emprestimo realizado com sucesso!\n";
+        emprestimos[totalEmprestimos].exibirDetalhes(); // <-- Adicione esta linha aqui
+        totalEmprestimos++;
+        usuario->registrarLivro(isbn);
+
+        emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
         totalEmprestimos++;
 
         cout << "Emprestimo realizado com sucesso!\n";
@@ -128,5 +134,18 @@ void Biblioteca::exibirLivros() const {
     for (int i = 0; i < totalLivros; i++) {
         cout << livros[i]->getTitulo() << " (ISBN: " << livros[i]->getISBN()
              << ", Disponível: " << (livros[i]->estaDisponivel() ? "Sim" : "Não") << ")\n";
+    }
+}
+
+void Biblioteca::exibirEmprestimosDoUsuario(int userId) const {
+    bool encontrou = false;
+    for (int i = 0; i < totalEmprestimos; i++) {
+        if (emprestimos[i].getUsuario()->getId() == userId) {
+            emprestimos[i].exibirDetalhes();
+            encontrou = true;
+        }
+    }
+    if (!encontrou) {
+        cout << "Nenhum emprestimo encontrado para este usuario.\n";
     }
 }

@@ -24,7 +24,7 @@ public:
     
     void adicionarLivro(Livro* livro);
     void adicionarUsuario(Usuario* usuario);
-
+    void exibirEmprestimosDoUsuario(int userId) const;
     void emprestarLivro(string isbn, int userId, string dataEmprestimo);
     void devolverLivro(string isbn, int userId);
 

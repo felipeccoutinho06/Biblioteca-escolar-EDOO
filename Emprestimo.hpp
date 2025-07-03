@@ -16,6 +16,7 @@ public:
     Emprestimo();
     Emprestimo(Livro* l, Usuario* u, string data);
     void exibirDetalhes() const;
+    Usuario* getUsuario() const { return usuario; }
 };
 
 #endif
