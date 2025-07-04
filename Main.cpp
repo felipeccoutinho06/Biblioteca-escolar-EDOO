@@ -41,10 +41,11 @@ int main() {
     biblioteca.exibirLivros();
  
     while (true) {
-        int userId;
-        string isbn, dataEmprestimo;
+    int userId;
+    string isbn, dataEmprestimo;
 
-        bool idValido = false;
+    // Validação do ID do usuário
+    bool idValido = false;
     do {
         cout << "\nDigite o ID do usuario (ou -1 para sair): ";
         cin >> userId;
@@ -55,13 +56,21 @@ int main() {
         }
     } while (!idValido);
 
-        cout << "Deseja ver todos os seus emprestimos? (s/n): ";
-        char verEmprestimos;
-        cin >> verEmprestimos;
-        if (verEmprestimos == 's' || verEmprestimos == 'S') {
-            biblioteca.exibirEmprestimosDoUsuario(userId);
-        }
+    cout << "Deseja ver todos os seus emprestimos? (s/n): ";
+    char verEmprestimos;
+    cin >> verEmprestimos;
+    if (verEmprestimos == 's' || verEmprestimos == 'S') {
+        biblioteca.exibirEmprestimosDoUsuario(userId);
+    }
 
+    cout << "\nO que deseja fazer?\n";
+    cout << "1 - Emprestar livro\n";
+    cout << "2 - Devolver livro\n";
+    cout << "Escolha uma opcao: ";
+    int opcao;
+    cin >> opcao;
+
+    if (opcao == 1) {
         cout << "\nLista de livros disponíveis:\n";
         biblioteca.exibirLivros(userId);
         cout << "\n";
@@ -82,12 +91,22 @@ int main() {
 
         // Chamar o método emprestarLivro
         biblioteca.emprestarLivro(isbn, userId, dataEmprestimo);
+    } else if (opcao == 2) {
+        cout << "\nSeus emprestimos atuais:\n";
+        biblioteca.exibirEmprestimosDoUsuario(userId);
 
-        cout << "\nDeseja realizar outra operacao? (s/n): ";
-        char continuar;
-        cin >> continuar;
-        if (continuar != 's' && continuar != 'S') break;
+        cout << "Digite o ISBN do livro que deseja devolver: ";
+        cin >> isbn;
+        biblioteca.devolverLivro(isbn, userId);
+    } else {
+        cout << "Opcao invalida.\n";
     }
+
+    cout << "\nDeseja realizar outra operacao? (s/n): ";
+    char continuar;
+    cin >> continuar;
+    if (continuar != 's' && continuar != 'S') break;
+}
 
     // Libere memória se necessário (ex: delete usuariosDB[i])
     return 0;
