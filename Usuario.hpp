@@ -12,20 +12,20 @@ protected:
     int totalLivros = 0;
 
 public:
-    Usuario(string n, int i) : nome(n), id(i) {}
+    Usuario(string n, int i) : nome(n), id(i) {} // Construtor com nome e ID
 
-    string getNome() const { return nome; }
-    int getId() const { return id; }
+    string getNome() const { return nome; }// Método para obter o nome do usuário
+    int getId() const { return id; }// Método para obter o ID do usuário
 
     virtual int getLimiteLivros() const { return 3; } // Limite padrão
 
-    bool jaPegouLivro(string isbn) const;
+    bool jaPegouLivro(string isbn) const;// Verifica se o usuário já pegou um livro pelo ISBN
 
-    bool podePegarMais() const { return totalLivros < getLimiteLivros(); }
+    bool podePegarMais() const { return totalLivros < getLimiteLivros(); }  // Verifica se o usuário pode pegar mais livros
+ 
+    void registrarLivro(string isbn); // Registra o ISBN do livro que o usuário pegou
 
-    void registrarLivro(string isbn);
-
-    void removerLivro(string isbn);
+    void removerLivro(string isbn); // Remove o registro do livro pelo ISBN
 };
 
 #endif

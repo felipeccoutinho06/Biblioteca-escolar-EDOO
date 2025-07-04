@@ -6,16 +6,28 @@
 #include <iostream>
 using namespace std;
 
+// Classe que representa um empréstimo de livro
 class Emprestimo {
+
+    friend class Biblioteca;
+    
 private:
-    Livro* livro;
-    Usuario* usuario;
-    string dataEmprestimo;
+    Livro* livro;              // Ponteiro para o livro emprestado
+    Usuario* usuario;          // Ponteiro para o usuário que fez o empréstimo
+    string dataEmprestimo;     // Data em que o empréstimo foi realizado
 
 public:
+    // Construtor padrão
     Emprestimo();
+
+    // Construtor com parâmetros (livro, usuário e data)
     Emprestimo(Livro* l, Usuario* u, string data);
+
+    // Exibe os detalhes do empréstimo (livro, usuário e data)
     void exibirDetalhes() const;
+
+    // Retorna o ponteiro para o usuário do empréstimo
+    Usuario* getUsuario() const { return usuario; }
 };
 
 #endif
