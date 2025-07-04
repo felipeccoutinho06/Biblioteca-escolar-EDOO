@@ -55,7 +55,7 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
 
     // Se encontrou livro e usuário válidos
     if (livro && usuario) {
-        // Verifica se o usuário já pegou esse livro
+        // Verifica se o usuário já pegou este livro
         if (usuario->jaPegouLivro(isbn)) {
             cout << "Este usuario ja pegou este livro antes.\n";
             return;
@@ -67,16 +67,15 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
             return;
         }
 
-        // Realiza o empréstimo
-        livro->emprestar();
+        // Faz o empréstimo
+        livro->emprestar();         // <-- Diminui a quantidade do livro
         usuario->registrarLivro(isbn);
 
-        // Registra o empréstimo no sistema
         emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
         totalEmprestimos++;
 
         cout << "Emprestimo realizado com sucesso!\n";
-        emprestimos[totalEmprestimos - 1].exibirDetalhes(); // Mostra detalhes do empréstimo
+        emprestimos[totalEmprestimos - 1].exibirDetalhes();
     } else {
         cout << "Livro indisponivel ou usuario nao encontrado.\n";
     }
@@ -107,6 +106,17 @@ void Biblioteca::devolverLivro(string isbn, int userId) {
     if (livro && usuario) {
         livro->devolver();           // Devolve o exemplar ao acervo
         usuario->removerLivro(isbn); // Remove o livro da lista do usuário
+        
+        // 3) Remove o empréstimo do array emprestimos[]
+        for (int i = 0; i < totalEmprestimos; i++) {
+            // Agora podemos acessar emprestimos[i].livro e emprestimos[i].usuario
+            if (emprestimos[i].livro == livro && emprestimos[i].usuario == usuario) {
+                emprestimos[i] = emprestimos[totalEmprestimos - 1];
+                totalEmprestimos--;
+                break;
+            }
+        }
+        
         cout << "Livro devolvido com sucesso!\n";
     } else {
         cout << "Livro ou usuario nao encontrado.\n";
