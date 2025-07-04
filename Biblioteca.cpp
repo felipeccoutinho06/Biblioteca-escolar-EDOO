@@ -2,6 +2,7 @@
 #include <iostream>
 using namespace std;
 
+// Destrutor: libera a memória dos livros e usuários cadastrados
 Biblioteca::~Biblioteca() {
     for (int i = 0; i < totalLivros; i++) {
         delete livros[i];
@@ -11,6 +12,7 @@ Biblioteca::~Biblioteca() {
     }
 }
 
+// Adiciona um novo livro ao acervo, se houver espaço
 void Biblioteca::adicionarLivro(Livro* livro) {
     if (totalLivros < TAMANHO_MAXIMO) {
         livros[totalLivros] = livro;
@@ -20,6 +22,7 @@ void Biblioteca::adicionarLivro(Livro* livro) {
     }
 }
 
+// Adiciona um novo usuário à biblioteca, se houver espaço
 void Biblioteca::adicionarUsuario(Usuario* usuario) {
     if (totalUsuarios < TAMANHO_MAXIMO) {
         usuarios[totalUsuarios] = usuario;
@@ -29,10 +32,12 @@ void Biblioteca::adicionarUsuario(Usuario* usuario) {
     }
 }
 
+// Realiza o empréstimo de um livro para um usuário
 void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) {
     Livro* livro = nullptr;
     Usuario* usuario = nullptr;
 
+    // Procura o livro disponível pelo ISBN
     for (int i = 0; i < totalLivros; i++) {
         if (livros[i]->getISBN() == isbn && livros[i]->estaDisponivel()) {
             livro = livros[i];
@@ -40,6 +45,7 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
         }
     }
 
+    // Procura o usuário pelo ID
     for (int i = 0; i < totalUsuarios; i++) {
         if (usuarios[i]->getId() == userId) {
             usuario = usuarios[i];
@@ -47,34 +53,41 @@ void Biblioteca::emprestarLivro(string isbn, int userId, string dataEmprestimo) 
         }
     }
 
+    // Se encontrou livro e usuário válidos
     if (livro && usuario) {
+        // Verifica se o usuário já pegou esse livro
         if (usuario->jaPegouLivro(isbn)) {
             cout << "Este usuario ja pegou este livro antes.\n";
             return;
         }
 
+        // Verifica se o usuário pode pegar mais livros
         if (!usuario->podePegarMais()) {
             cout << "Este usuario atingiu o limite de livros emprestados.\n";
             return;
         }
 
+        // Realiza o empréstimo
         livro->emprestar();
         usuario->registrarLivro(isbn);
 
+        // Registra o empréstimo no sistema
         emprestimos[totalEmprestimos] = Emprestimo(livro, usuario, dataEmprestimo);
         totalEmprestimos++;
 
         cout << "Emprestimo realizado com sucesso!\n";
-        emprestimos[totalEmprestimos - 1].exibirDetalhes();
+        emprestimos[totalEmprestimos - 1].exibirDetalhes(); // Mostra detalhes do empréstimo
     } else {
         cout << "Livro indisponivel ou usuario nao encontrado.\n";
     }
 }
 
+// Realiza a devolução de um livro por um usuário
 void Biblioteca::devolverLivro(string isbn, int userId) {
     Livro* livro = nullptr;
     Usuario* usuario = nullptr;
 
+    // Procura o livro pelo ISBN
     for (int i = 0; i < totalLivros; i++) {
         if (livros[i]->getISBN() == isbn) {
             livro = livros[i];
@@ -82,6 +95,7 @@ void Biblioteca::devolverLivro(string isbn, int userId) {
         }
     }
 
+    // Procura o usuário pelo ID
     for (int i = 0; i < totalUsuarios; i++) {
         if (usuarios[i]->getId() == userId) {
             usuario = usuarios[i];
@@ -89,15 +103,17 @@ void Biblioteca::devolverLivro(string isbn, int userId) {
         }
     }
 
+    // Se encontrou livro e usuário válidos
     if (livro && usuario) {
-        livro->devolver();
-        usuario->removerLivro(isbn);
+        livro->devolver();           // Devolve o exemplar ao acervo
+        usuario->removerLivro(isbn); // Remove o livro da lista do usuário
         cout << "Livro devolvido com sucesso!\n";
     } else {
         cout << "Livro ou usuario nao encontrado.\n";
     }
 }
 
+// Exibe todos os empréstimos ativos da biblioteca
 void Biblioteca::exibirEmprestimos() const {
     cout << "Emprestimos Ativos:\n";
     for (int i = 0; i < totalEmprestimos; i++) {
@@ -106,6 +122,7 @@ void Biblioteca::exibirEmprestimos() const {
     }
 }
 
+// Verifica se um usuário com o ID informado existe
 bool Biblioteca::idUsuarioExiste(int userId) const {
     for (int i = 0; i < totalUsuarios; i++) {
         if (usuarios[i]->getId() == userId) {
@@ -115,6 +132,7 @@ bool Biblioteca::idUsuarioExiste(int userId) const {
     return false; // ID não encontrado
 }
 
+// Verifica se um livro com o ISBN informado existe
 bool Biblioteca::isbnLivroExiste(const string& isbn) const {
     for (int i = 0; i < totalLivros; i++) {
         if (livros[i]->getISBN() == isbn) {
@@ -124,17 +142,21 @@ bool Biblioteca::isbnLivroExiste(const string& isbn) const {
     return false; // ISBN não encontrado
 }
 
+// Exibe todos os livros cadastrados, indicando se estão disponíveis para o usuário
 void Biblioteca::exibirLivros(int userId) const {
     cout << "\nLivros cadastrados:\n";
     Usuario* usuario = nullptr;
+    // Procura o usuário pelo ID (se fornecido)
     for (int i = 0; i < totalUsuarios; i++) {
         if (usuarios[i]->getId() == userId) {
             usuario = usuarios[i];
             break;
         }
     }
+    // Exibe cada livro, mostrando se está disponível para o usuário
     for (int i = 0; i < totalLivros; i++) {
         bool disponivel = livros[i]->estaDisponivel();
+        // Se o usuário já pegou o livro, marca como indisponível para ele
         if (usuario && usuario->jaPegouLivro(livros[i]->getISBN())) {
             disponivel = false;
         }
@@ -143,6 +165,7 @@ void Biblioteca::exibirLivros(int userId) const {
     }
 }
 
+// Exibe todos os empréstimos feitos por um usuário específico
 void Biblioteca::exibirEmprestimosDoUsuario(int userId) const {
     bool encontrou = false;
     for (int i = 0; i < totalEmprestimos; i++) {
