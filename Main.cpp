@@ -17,8 +17,8 @@ int main() {
     biblioteca.adicionarUsuario(prof2);
 
     // Criação e cadastro de alunos
-    Aluno* aluno1 = new Aluno("Ana Lima", 3);
-    Aluno* aluno2 = new Aluno("Carlos Dias", 4);
+    Aluno* aluno1 = new Aluno("Davi Coutinho", 3);
+    Aluno* aluno2 = new Aluno("Felipe Peixoto", 4);
     biblioteca.adicionarUsuario(aluno1);
     biblioteca.adicionarUsuario(aluno2);
 
