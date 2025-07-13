@@ -8,6 +8,9 @@ using namespace std;
 
 // Classe que representa um empréstimo de livro
 class Emprestimo {
+
+    friend class Biblioteca;
+    
 private:
     Livro* livro;              // Ponteiro para o livro emprestado
     Usuario* usuario;          // Ponteiro para o usuário que fez o empréstimo

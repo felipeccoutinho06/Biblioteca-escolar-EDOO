@@ -11,8 +11,8 @@ Biblioteca biblioteca;
 
 int main() {
     // Criação e cadastro de professores
-    Professor* prof1 = new Professor("Maria Silva", 1);
-    Professor* prof2 = new Professor("João Souza", 2);
+    Professor* prof1 = new Professor("Kiev", 1);
+    Professor* prof2 = new Professor("Davi", 2);
     biblioteca.adicionarUsuario(prof1);
     biblioteca.adicionarUsuario(prof2);
 
@@ -23,21 +23,21 @@ int main() {
     biblioteca.adicionarUsuario(aluno2);
 
     // Cadastro de livros na biblioteca
-    biblioteca.adicionarLivro(new Livro("História 1", "ISBN001", 5));
-    biblioteca.adicionarLivro(new Livro("História 2", "ISBN002", 3));
-    biblioteca.adicionarLivro(new Livro("História 3", "ISBN003", 4));
-    biblioteca.adicionarLivro(new Livro("Matemática 1", "ISBN004", 2));
-    biblioteca.adicionarLivro(new Livro("Matemática 2", "ISBN005", 6));
-    biblioteca.adicionarLivro(new Livro("Matemática 3", "ISBN006", 2));
-    biblioteca.adicionarLivro(new Livro("Português 1", "ISBN007", 5));
-    biblioteca.adicionarLivro(new Livro("Português 2", "ISBN008", 3));
-    biblioteca.adicionarLivro(new Livro("Português 3", "ISBN009", 4));
+    biblioteca.adicionarLivro(new Livro("Historia 1", "ISBN001", 5));
+    biblioteca.adicionarLivro(new Livro("Historia 2", "ISBN002", 3));
+    biblioteca.adicionarLivro(new Livro("Historia 3", "ISBN003", 4));
+    biblioteca.adicionarLivro(new Livro("Matematica 1", "ISBN004", 2));
+    biblioteca.adicionarLivro(new Livro("Matematica 2", "ISBN005", 6));
+    biblioteca.adicionarLivro(new Livro("Matematica 3", "ISBN006", 2));
+    biblioteca.adicionarLivro(new Livro("Portugues 1", "ISBN007", 5));
+    biblioteca.adicionarLivro(new Livro("Portugues 2", "ISBN008", 3));
+    biblioteca.adicionarLivro(new Livro("Portugues 3", "ISBN009", 4));
     biblioteca.adicionarLivro(new Livro("Geografia 1", "ISBN010", 2));
     biblioteca.adicionarLivro(new Livro("Geografia 2", "ISBN011", 3));
     biblioteca.adicionarLivro(new Livro("Geografia 3", "ISBN012", 2));
-    biblioteca.adicionarLivro(new Livro("Ciências 1", "ISBN013", 1));
-    biblioteca.adicionarLivro(new Livro("Ciências 2", "ISBN014", 2));
-    biblioteca.adicionarLivro(new Livro("Ciências 3", "ISBN015", 4));
+    biblioteca.adicionarLivro(new Livro("Ciencias 1", "ISBN013", 1));
+    biblioteca.adicionarLivro(new Livro("Ciencias 2", "ISBN014", 2));
+    biblioteca.adicionarLivro(new Livro("Ciencias 3", "ISBN015", 4));
 
     // Exibe todos os livros cadastrados no início
     biblioteca.exibirLivros();
