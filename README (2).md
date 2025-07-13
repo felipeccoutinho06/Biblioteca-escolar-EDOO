@@ -77,23 +77,11 @@ Emprestimo realizado com sucesso!
 
 ## 👨‍💻 Equipe
 
-| Nome               | Matrícula | Contribuições                                 |
-|--------------------|-----------|-----------------------------------------------|
-| Felipe Coutinho    | XXXX      | Estrutura principal, lógica de empréstimos    |
-| Integrante 2       | XXXX      | Interface CLI, organização de entrada/saída   |
-| Integrante 3       | XXXX      | Implementação da classe Emprestimo, testes    |
-
+| Nome               |
+|--------------------|
+| Felipe Coutinho    | 
+| Davi Peixoto       | 
+| João Hibernon      |
+| Arthur de Sá       |
 ---
 
-## 📈 Melhorias Futuras
-
-- Persistência de dados em arquivo
-- Interface gráfica com Qt/SFML
-- Controle de multas por atraso
-- Autenticação e perfis de acesso
-
----
-
-## 🧾 Licença
-
-Este projeto é apenas para fins educacionais (disciplina de EDOO). Não possui licença comercial.
